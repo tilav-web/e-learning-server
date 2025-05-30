@@ -5,14 +5,17 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Teacher } from './teacher.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class TeacherService {
   constructor(@InjectModel(Teacher.name) private model: Model<Teacher>) {}
 
   async findByAuth(auth: string) {
-    const teacher = await this.model.findOne({ auth }).lean();
+    const teacher = await this.model
+      .findOne({ auth: new Types.ObjectId(auth) })
+      .populate('groups')
+      .lean();
 
     if (!teacher)
       throw new BadRequestException(
@@ -62,7 +65,8 @@ export class TeacherService {
   }
 
   async findById(id: string) {
-    return this.model.findById(id);
+    const teacher = await this.model.findById(id).populate('groups');
+    return teacher;
   }
 
   async findByIdAndUpdate({ id, dto }: { id: string; dto: Partial<Teacher> }) {

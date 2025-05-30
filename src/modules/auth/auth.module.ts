@@ -21,5 +21,6 @@ import { StudentModule } from '../student/student.module';
   ],
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [AuthService],
 })
 export class AuthModule {}

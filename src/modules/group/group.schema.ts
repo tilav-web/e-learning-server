@@ -10,8 +10,14 @@ export class Group extends Document {
   @Prop({ ref: 'Teacher' })
   teachers: Types.ObjectId[];
 
-  @Prop({ ref: 'Courses' })
+  @Prop({ ref: 'Course' })
   courses: Types.ObjectId[];
+
+  @Prop({ ref: 'Student' })
+  students: Types.ObjectId[];
+
+  @Prop({ ref: 'Curriculum' })
+  curriculums: Types.ObjectId[];
 }
 
 export const GroupSchema = SchemaFactory.createForClass(Group);

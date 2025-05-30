@@ -114,4 +114,38 @@ export class AuthService {
 
     return resAuth;
   }
+
+  async findById(
+    id: string,
+  ): Promise<Auth & { teacher?: Teacher; student?: Student }> {
+    const auth = await this.authModel.findById(id).lean().exec();
+
+    if (!auth) {
+      throw new BadRequestException('Foydalanuvchi topilmadi!');
+    }
+
+    let resAuth;
+
+    if (auth.role === AuthRoleEnum.TEACHER) {
+      const teacher = await this.teacherService.findByAuth(auth._id as string);
+      if (teacher) {
+        resAuth = {
+          ...auth,
+          teacher,
+        };
+      }
+    }
+
+    if (auth.role === AuthRoleEnum.STUDENT) {
+      const student = await this.studentService.findByAuth(auth._id as string);
+      if (student) {
+        resAuth = {
+          ...auth,
+          student,
+        };
+      }
+    }
+
+    return resAuth;
+  }
 }

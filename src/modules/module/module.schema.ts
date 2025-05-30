@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
-export class Module extends Document {
+export class CModule extends Document {
   @Prop({ required: true })
   title: string;
 
@@ -17,4 +17,4 @@ export class Module extends Document {
   lessons: Types.ObjectId[];
 }
 
-export const ModuleSchema = SchemaFactory.createForClass(Module);
+export const CModuleSchema = SchemaFactory.createForClass(CModule);

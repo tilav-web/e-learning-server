@@ -22,6 +22,9 @@ export class Lesson extends Document {
 
   @Prop({ required: true })
   target: string;
+
+  @Prop({ ref: 'Resource' })
+  resources: Types.ObjectId[];
 }
 
 export const LessonSchema = SchemaFactory.createForClass(Lesson);
